@@ -13,9 +13,8 @@ def hello_text(request):
     phone_number = request.POST.get('From')
     for i in Menu.objects.all():
         message = f"""{i.name}\n{i.description}\n{i.price}"""
-        print(i.image.url)
-        print(i.image)
-        send_message(phone_number,message, i.image.url)
+        media = f"http://80.90.184.58:8000{i.image.url}"
+        send_message(phone_number,message, media)
 
     return HttpResponse({'200':'OK'})
 @api_view(['POST', "GET"])
