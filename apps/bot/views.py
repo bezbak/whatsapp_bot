@@ -13,7 +13,7 @@ def hello_text(request):
     phone_number = request.POST.get('From')
     for i in Menu.objects.all():
         message = f"""{i.name}\n{i.description}\n{i.price}"""
-        send_message(phone_number,message, {i.image.url})
+        send_message(phone_number,message, i.image.url)
 
     return HttpResponse({'200':'OK'})
 @api_view(['POST', "GET"])
