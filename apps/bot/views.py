@@ -43,7 +43,10 @@ def create_order(phone_number, order):
 def set_order(phone_number, text):
     global step
     global dish1
-    order = dish1.order
+    try:
+        order = dish1.order
+    except:
+        order = Order.objects.last()
     if 'нет' in text:
         order.one_order.latest('id').delete()
         step -=1
@@ -58,6 +61,7 @@ def set_order(phone_number, text):
         send_message('whatsapp:+99778010039', message=message)
     else:
         dish1.count = text
+        dish1.save()
         message = f"""✅✅✅ВАШ ЗАКАЗ✅✅✅\n\n{', '.join(' '.join((v,'Количество:',l)) for v,l in order.one_order.all())}\n\nСумма:{order.sum_of_order}\n\n     🔥🔥🔥ДОБАВИТЬ ЕЩЁ, НАПИШИТЕ НОМЕР БЛЮДА🔥🔥🔥  \n\n🤝🤝🤝ОФОРМИТЬ ЗАКАЗ🤝🤝🤝 отправьте «ОК»\n\nНапишите 'нет' чтобы отменить выбор или 'Отмена' чтобы отменить заказ"""
         send_message(phone_number,message)
 
