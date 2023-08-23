@@ -19,9 +19,11 @@ def incoming(request):
     phone_number = request.POST.get('From')
     if step == 0:
         hello_text(phone_number)
-    elif step == 1 and '1' in text:
+    elif step ==1 and '1' in text:
+        get_menu(phone_number)
+    elif step == 2:
         get_order(phone_number,text)
-    elif step ==2:
+    elif step ==3:
         set_order(phone_number, text)
     return HttpResponse({'200':'OK'})
     
