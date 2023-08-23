@@ -4,12 +4,17 @@ from django.db import models
 # Create your models here.
 class Menu(models.Model):
     image = models.ImageField(
-        upload_to='menu/'
+        upload_to='menu/',
+        blank=True,
+        null=True
     )
     name = models.CharField(
         max_length=50
     )
-    description = models.TextField()
+    description = models.TextField(
+        blank=True,
+        null=True
+    )
     price = models.IntegerField()
 
     class Meta:

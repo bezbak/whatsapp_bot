@@ -25,6 +25,9 @@ def incoming(request):
         set_order(phone_number, text)
     elif step ==4:
         del_order(phone_number, text)
+    elif step ==5:
+        message = f"""Пришёл заказ на козу гриль!!!\n\nНомер телефона:{phone_number}"""
+        send_message('whatsapp:+996557500113', message=message)
     return HttpResponse({'200':'OK'})
     
 def hello_text(phone_number):
@@ -50,8 +53,7 @@ def create_order(phone_number, order):
             dish1=order2
             step +=1
             send_message(phone_number,'Выберите количество порций')
-        except Exception as ex:
-            print(ex)
+        except:
             send_message(phone_number,'Такого номера нет. Напишите другой номер')
 
 def set_order(phone_number, text):
@@ -119,4 +121,3 @@ def send_message(receiver_number, message, image='no'):
             to=receiver_number,
             media_url=[image]
         )
-    print(f"Сообщение отправлено. SID: {message.sid}")
