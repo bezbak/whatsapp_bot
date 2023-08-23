@@ -42,9 +42,7 @@ class MenuToOrder(models.Model):
     count = models.PositiveIntegerField(
         default=1
     )
-
-    def save(self, force_insert: bool = ..., force_update: bool = ..., using: str | None = ..., update_fields: Iterable[str] | None = ...) -> None:
+    def save(self, *args, **kwargs):
         if self.order.sum_of_order==0:
             self.order.sum_of_order += self.dish.price * self.count
-        return super().save(force_insert, force_update, using, update_fields)
-    
+        super().save(*args, **kwargs)
