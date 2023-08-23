@@ -36,9 +36,10 @@ def create_order(phone_number, order):
     print(item, 'test')
     order2 = Order.objects.create(phone_number=phone_number, sum_of_order = 0)
     print(order2, 'test2')
-    dish1 = MenuToOrder.objects.create(dish_id = item.id, order_id=order2.id)
-    dish1.save(force_insert=True)
-    print(dish1, 'test3')
+    dish = MenuToOrder.objects.create(dish_id = item.id, order_id=order2.id)
+    dish.save()
+    dish1 = dish
+    print(dish, 'test3')
     step +=1
     send_message(phone_number,'Выберите количество порций')
     # except Exception as ex:
