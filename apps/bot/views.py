@@ -60,12 +60,13 @@ def set_order(phone_number, text):
         send_message(phone_number,'Ваш заказ отменён')
     elif 'ок' in text:
         step = 0
-        message = f"""Пришёл заказ: {', '.join(' '.join((i.dish.name,'Количество:',i.count)) for i in order.one_oreder.all())}\nСумма заказа:{order.sum_of_order}\nНомер телефона:{phone_number}"""
+        message = f"""Пришёл заказ: {', '.join(' '.join((i.dish.name,'Количество:',i.count)) for i in order.one_order.all())}\nСумма заказа:{order.sum_of_order}\nНомер телефона:{phone_number}"""
         send_message('whatsapp:+99778010039', message=message)
     else:
+        print(item, order)
         dish = MenuToOrder.objects.create(dish=item, order=order,count = int(text))
         dish.save()
-        message = f"""✅✅✅ВАШ ЗАКАЗ✅✅✅\n\n{', '.join(' '.join((i.dish.name,'Количество:',i.count)) for i in order.one_oreder.all())}\n\nСумма:{order.sum_of_order}\n\n     🔥🔥🔥ДОБАВИТЬ ЕЩЁ, НАПИШИТЕ НОМЕР БЛЮДА🔥🔥🔥  \n\n🤝🤝🤝ОФОРМИТЬ ЗАКАЗ🤝🤝🤝 отправьте «ОК»\n\nНапишите 'нет' чтобы отменить выбор или 'Отмена' чтобы отменить заказ"""
+        message = f"""✅✅✅ВАШ ЗАКАЗ✅✅✅\n\n{', '.join(' '.join((i.dish.name,'Количество:',i.count)) for i in order.one_order.all())}\n\nСумма:{order.sum_of_order}\n\n     🔥🔥🔥ДОБАВИТЬ ЕЩЁ, НАПИШИТЕ НОМЕР БЛЮДА🔥🔥🔥  \n\n🤝🤝🤝ОФОРМИТЬ ЗАКАЗ🤝🤝🤝 отправьте «ОК»\n\nНапишите 'нет' чтобы отменить выбор или 'Отмена' чтобы отменить заказ"""
         send_message(phone_number,message)
 
             
