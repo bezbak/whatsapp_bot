@@ -8,7 +8,7 @@ client = Client(account_sid1, auth_token1)
 # Create your views here.
 item =0
 step = 0
-dish1 =MenuToOrder.objects.last() 
+dish1 =0
 is_order = False
 @api_view(['POST', "GET"])
 def incoming(request):
@@ -61,6 +61,7 @@ def set_order(phone_number, text):
     if 'нет' in text:
         try:
             order.one_order.last.delete()
+            print('order is delete')
             step -=1
             send_message(phone_number,'Хорошо выберите другое блюдо')
         except:
