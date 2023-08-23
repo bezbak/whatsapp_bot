@@ -3,7 +3,7 @@ from apps.bot.models import Order, Menu
 from twilio.rest import Client
 from core.config import account_sid1, auth_token1
 from django.http import HttpResponse
-from .answers import hello_text
+from .answers import hello_text2
 client = Client(account_sid1, auth_token1)
 # Create your views here.
 
@@ -14,6 +14,7 @@ order_sum = 0
 order_dict = {}
 @api_view(['POST', "GET"])
 def incoming(request):
+    global step
     text = request.POST.get('Body').lower()
     phone_number = request.POST.get('From')
     if step == 0:
@@ -25,9 +26,10 @@ def incoming(request):
     return HttpResponse({'200':'OK'})
     
 def hello_text(phone_number):
-    send_message(phone_number, hello_text)
+    send_message(phone_number, hello_text2)
     step +=1
 def get_order(phone_number, order):
+    global step
     global item
     global last_sum
     try:
@@ -40,6 +42,7 @@ def get_order(phone_number, order):
 
 def set_order(phone_number, text):
     global item
+    global step
     global last_sum
     global order_sum
     if 'нет' in text:
