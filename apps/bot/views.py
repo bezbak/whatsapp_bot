@@ -60,8 +60,9 @@ def set_order(phone_number, text):
         send_message(phone_number,'Ваш заказ отменён')
     elif 'ок' in text:
         step = 0
-        message = f"""Пришёл заказ: {', '.join(' '.join((i.dish.name,'Количество:',i.count)) for i in order.one_order.all())}\nСумма заказа:{order.sum_of_order}\nНомер телефона:{phone_number}"""
+        message = f"""Пришёл заказ: {', '.join(' '.join((i.dish.name,'Количество:',str(i.count))) for i in order.one_order.all())}\nСумма заказа:{order.sum_of_order}\nНомер телефона:{phone_number}"""
         send_message('whatsapp:+99778010039', message=message)
+        send_message(phone_number, message='Мы приняли ваш заказ, ожидайте ответа')
     else:
         dish = MenuToOrder.objects.create(dish=item, order=order,count = int(text))
         dish.save()
