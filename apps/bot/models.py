@@ -12,9 +12,6 @@ class Menu(models.Model):
     description = models.TextField()
     price = models.IntegerField()
 
-    def __str__(self):
-        return f"{self.name} -- {self.price}"
-    
     class Meta:
         verbose_name = "Продукт"
         verbose_name_plural = "Меню"
@@ -26,8 +23,6 @@ class Order(models.Model):
     phone_number = models.CharField(
         max_length=15
     )
-    def __str__(self):
-        return f"{self.phone_number}"
     
     class Meta:
         verbose_name = "Заказы"

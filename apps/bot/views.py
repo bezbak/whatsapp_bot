@@ -36,7 +36,7 @@ def create_order(phone_number, order):
     print(item, 'test')
     order2 = Order.objects.create(phone_number=phone_number, sum_of_order = 0)
     print(order2, 'test2')
-    dish = MenuToOrder.objects.create(dish_id = item.id, order_id=order2.id)
+    dish = MenuToOrder.objects.create(dish = item, order=order2, count=0)
     dish.save()
     dish1 = dish
     print(dish, 'test3')
