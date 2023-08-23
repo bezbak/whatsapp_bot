@@ -8,7 +8,7 @@ client = Client(account_sid1, auth_token1)
 # Create your views here.
 item =0
 step = 0
-dish1 =0
+dish1 =MenuToOrder.objects.last()
 @api_view(['POST', "GET"])
 def incoming(request):
     global step
