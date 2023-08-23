@@ -46,9 +46,9 @@ class MenuToOrder(models.Model):
         if self.order.sum_of_order != 0:
             self.order.sum_of_order += self.dish.price * self.count
             print(self.count)
-            print(self.self.dish.price)
+            print(self.dish.price)
         else:
             print(self.count)
-            print(self.self.dish.price)
+            print(self.dish.price)
             self.order.sum_of_order = self.dish.price * self.count
         super().save(*args, **kwargs)
