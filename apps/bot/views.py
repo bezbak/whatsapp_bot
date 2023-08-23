@@ -23,6 +23,8 @@ def incoming(request):
         create_order(phone_number,text)
     elif step ==3:
         set_order(phone_number, text)
+    elif step ==4:
+        del_order(phone_number, text)
     return HttpResponse({'200':'OK'})
     
 def hello_text(phone_number):
@@ -58,9 +60,23 @@ def set_order(phone_number, text):
     global is_order
     global dish1
     order = dish1
+    dish = MenuToOrder.objects.create(dish=item, order=order,count = int(text))
+    dish.save()
+    order.sum_of_order += dish.dish.price * int(text)
+    message = f"""✅✅✅ВАШ ЗАКАЗ✅✅✅\n\n{', '.join(' '.join((i.dish.name,'Количество:',str(i.count))) for i in order.one_order.all())}\n\nСумма:{order.sum_of_order}\n\n     🔥🔥🔥ДОБАВИТЬ ЕЩЁ, НАПИШИТЕ НОМЕР БЛЮДА🔥🔥🔥  \n\n🤝🤝🤝ОФОРМИТЬ ЗАКАЗ🤝🤝🤝 отправьте «ОК»\n\nНапишите 'нет' чтобы отменить выбор или 'Отмена' чтобы отменить заказ"""
+    is_order = True
+    send_message(phone_number,message)
+    step+=1
+
+def del_order(phone_number, text):
+    global step
+    global item
+    global is_order
+    global dish1
+    order = dish1
     if 'нет' in text:
         try:
-            order.sum_of_order -= order.one_order.latest('id').dish.price * rder.one_order.latest('id').count
+            order.sum_of_order -= order.one_order.latest('id').dish.price * order.one_order.latest('id').count
             order.one_order.latest('id').delete()
             print('order is delete')
             step -=1
@@ -78,15 +94,6 @@ def set_order(phone_number, text):
         message = f"""Пришёл заказ: {', '.join(' '.join((i.dish.name,'Количество:',str(i.count))) for i in order.one_order.all())}\nСумма заказа:{order.sum_of_order}\nНомер телефона:{phone_number}"""
         send_message('whatsapp:+99778010039', message=message)
         send_message(phone_number, message='Мы приняли ваш заказ, ожидайте ответа')
-    else:
-        dish = MenuToOrder.objects.create(dish=item, order=order,count = int(text))
-        dish.save()
-        order.sum_of_order += dish.dish.price * int(text)
-        message = f"""✅✅✅ВАШ ЗАКАЗ✅✅✅\n\n{', '.join(' '.join((i.dish.name,'Количество:',str(i.count))) for i in order.one_order.all())}\n\nСумма:{order.sum_of_order}\n\n     🔥🔥🔥ДОБАВИТЬ ЕЩЁ, НАПИШИТЕ НОМЕР БЛЮДА🔥🔥🔥  \n\n🤝🤝🤝ОФОРМИТЬ ЗАКАЗ🤝🤝🤝 отправьте «ОК»\n\nНапишите 'нет' чтобы отменить выбор или 'Отмена' чтобы отменить заказ"""
-        is_order = True
-        send_message(phone_number,message)
-        step-=1
-            
 def get_menu(phone_number, text):
     global step
     if text == "1":
