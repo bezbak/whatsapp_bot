@@ -27,7 +27,7 @@ class Order(models.Model):
         max_length=15
     )
     def __str__(self):
-        return f"{self.dish.name}--{self.count}: {self.phone_number}"
+        return f"{self.one_order.order_dish.name}--{self.one_order.count}: {self.phone_number}"
     
     class Meta:
         verbose_name = "Заказы"
