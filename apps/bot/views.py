@@ -72,7 +72,7 @@ def set_order(phone_number, text):
     message = f"""✅✅✅ВАШ ЗАКАЗ✅✅✅\n\n{', '.join(' '.join((i.dish.name,'Количество:',str(i.count))) for i in order.one_order.all())}\n\nСумма:{order.sum_of_order}\n\n     🔥🔥🔥ДОБАВИТЬ ЕЩЁ, НАПИШИТЕ НОМЕР БЛЮДА🔥🔥🔥  \n\n🤝🤝🤝ОФОРМИТЬ ЗАКАЗ🤝🤝🤝 отправьте «ОК»\n\nНапишите 'нет' чтобы отменить выбор или 'Отмена' чтобы отменить заказ"""
     is_order = True
     send_message(phone_number,message)
-    step+=1
+    step-=1
 
 def del_order(phone_number, text):
     global step
@@ -98,7 +98,7 @@ def del_order(phone_number, text):
         step = 0
         is_order = False
         message = f"""Пришёл заказ: {', '.join(' '.join((i.dish.name,'Количество:',str(i.count))) for i in order.one_order.all())}\nСумма заказа:{order.sum_of_order}\nНомер телефона:{phone_number}"""
-        send_message('whatsapp:+996778010039', message=message)
+        send_message('whatsapp:+996557500113', message=message)
         send_message(phone_number, message='Мы приняли ваш заказ, ожидайте ответа')
 def get_menu(phone_number, text):
     global step
