@@ -31,9 +31,11 @@ def hello_text(phone_number):
 def create_order(phone_number, order): 
     global step
     global dish1
+    global item
     try:
         item = Menu.objects.get(id = int(order))
         order2 = Order.objects.create(phone_number=phone_number, sum_of_order = 0)
+        dish1=order2
         step +=1
         send_message(phone_number,'Выберите количество порций')
     except Exception as ex:
