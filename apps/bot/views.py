@@ -79,7 +79,7 @@ def del_order(phone_number, text):
             order.sum_of_order -= order.one_order.latest('id').dish.price * order.one_order.latest('id').count
             order.one_order.latest('id').delete()
             print('order is delete')
-            step -=1
+            step -=2
             send_message(phone_number,'Хорошо выберите другое блюдо')
         except:
             send_message(phone_number,'Хорошо выберите другое блюдо')
@@ -92,7 +92,7 @@ def del_order(phone_number, text):
         step = 0
         is_order = False
         message = f"""Пришёл заказ: {', '.join(' '.join((i.dish.name,'Количество:',str(i.count))) for i in order.one_order.all())}\nСумма заказа:{order.sum_of_order}\nНомер телефона:{phone_number}"""
-        send_message('whatsapp:+99778010039', message=message)
+        send_message('whatsapp:+996778010039', message=message)
         send_message(phone_number, message='Мы приняли ваш заказ, ожидайте ответа')
 def get_menu(phone_number, text):
     global step
