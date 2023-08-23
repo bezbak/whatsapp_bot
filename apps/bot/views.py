@@ -33,8 +33,11 @@ def create_order(phone_number, order):
     global dish1
     try:
         item = Menu.objects.get(id = int(order))
+        print(item, 'test')
         order2 = Order.objects.create(phone_number=phone_number)
+        print(order2, 'test2')
         dish1 = MenuToOrder.objects.create(dish = item, order=order2)
+        print(dish1, 'test3')
         step +=1
         send_message(phone_number,'Выберите количество порций')
     except:
