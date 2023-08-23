@@ -19,13 +19,14 @@ def incoming(request):
     phone_number = request.POST.get('From')
     if step == 0:
         hello_text(phone_number)
-    elif step == 1:
+    elif step == 1 and '1' in text:
         get_order(phone_number,text)
     elif step ==2:
         set_order(phone_number, text)
     return HttpResponse({'200':'OK'})
     
 def hello_text(phone_number):
+    global step
     send_message(phone_number, hello_text2)
     step +=1
 def get_order(phone_number, order):
