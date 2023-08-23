@@ -101,6 +101,7 @@ def del_order(phone_number, text):
         send_message('whatsapp:+996557500113', message=message)
         send_message(phone_number, message='Мы приняли ваш заказ, ожидайте ответа')
     else:
+        step =2
         set_order(phone_number, text)
 def get_menu(phone_number, text):
     global step
