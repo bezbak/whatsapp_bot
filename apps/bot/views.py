@@ -26,8 +26,12 @@ def incoming(request):
     elif step ==4:
         del_order(phone_number, text)
     elif step ==5:
-        message = f"""Пришёл заказ на козу гриль!!!\n\nНомер телефона:{phone_number}"""
-        send_message('whatsapp:+996557500113', message=message)
+        if 'ок' in text:
+            message = f"""Пришёл заказ на козу гриль!!!\n\nНомер телефона:{phone_number}"""
+            send_message('whatsapp:+996557500113', message=message)
+            send_message(phone_number, message='Мы приняли ваш заказ, ожидайте')
+        else:
+            step=0
     return HttpResponse({'200':'OK'})
     
 def hello_text(phone_number):
