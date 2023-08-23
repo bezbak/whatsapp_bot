@@ -60,7 +60,8 @@ def set_order(phone_number, text):
     order = dish1
     if 'нет' in text:
         try:
-            order.one_order.last.delete()
+            order.sum_of_order -= order.one_order.latest('id').dish.price * rder.one_order.latest('id').count
+            order.one_order.latest('id').delete()
             print('order is delete')
             step -=1
             send_message(phone_number,'Хорошо выберите другое блюдо')
@@ -80,7 +81,7 @@ def set_order(phone_number, text):
     else:
         dish = MenuToOrder.objects.create(dish=item, order=order,count = int(text))
         dish.save()
-        print([(i.dish.name,i.count) for i in order.one_order.all()], 'test')
+        order.sum_of_order += dish.dish.price * int(text)
         message = f"""✅✅✅ВАШ ЗАКАЗ✅✅✅\n\n{', '.join(' '.join((i.dish.name,'Количество:',str(i.count))) for i in order.one_order.all())}\n\nСумма:{order.sum_of_order}\n\n     🔥🔥🔥ДОБАВИТЬ ЕЩЁ, НАПИШИТЕ НОМЕР БЛЮДА🔥🔥🔥  \n\n🤝🤝🤝ОФОРМИТЬ ЗАКАЗ🤝🤝🤝 отправьте «ОК»\n\nНапишите 'нет' чтобы отменить выбор или 'Отмена' чтобы отменить заказ"""
         is_order = True
         send_message(phone_number,message)

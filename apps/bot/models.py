@@ -42,8 +42,3 @@ class MenuToOrder(models.Model):
     count = models.PositiveIntegerField(
         default=1
     )
-    def save(self, *args, **kwargs):
-        print('ДВАЖДЫ ОТПРАВИТ')
-        if self.order.sum_of_order == 0:
-            self.order.sum_of_order += self.dish.price * self.count
-        super().save(*args, **kwargs)
