@@ -73,7 +73,7 @@ def get_menu(phone_number, text):
             message = f"""{i.id}\n{i.name}\n{i.description}\n{i.price}"""
             media = f"http://80.90.184.58:8000{i.image.url}"
             send_message(phone_number,message, media)
-            step +=1
+            step =2
     else:
         send_message(phone_number,command2)
         step =5
