@@ -31,7 +31,10 @@ def incoming(request):
             send_message('whatsapp:+996557500113', message=message)
             send_message(phone_number, message='Мы приняли ваш заказ, ожидайте')
         else:
+            hello_text(phone_number)
             step=0
+    else:
+        hello_text(phone_number)
     return HttpResponse({'200':'OK'})
     
 def hello_text(phone_number):
