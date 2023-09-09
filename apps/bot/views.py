@@ -31,11 +31,11 @@ def incoming(request):
             send_message('whatsapp:+996557500113', message=message)
             send_message(phone_number, message='Мы приняли ваш заказ, ожидайте')
         else:
-            hello_text(phone_number)
             step=0
+            hello_text(phone_number)
     else:
-        hello_text(phone_number)
         step=0
+        hello_text(phone_number)
 
     return HttpResponse({'200':'OK'})
     
@@ -85,7 +85,7 @@ def del_order(phone_number, text):
     global is_order
     global dish1
     order = dish1
-    if 'нет' in text:
+    if 'нет' in text.lower():
         try:
             order.sum_of_order -= order.one_order.latest('id').dish.price * order.one_order.latest('id').count
             order.one_order.latest('id').delete()
@@ -94,12 +94,12 @@ def del_order(phone_number, text):
             send_message(phone_number,'Хорошо выберите другое блюдо')
         except:
             send_message(phone_number,'Хорошо выберите другое блюдо')
-    elif 'отмена' in text:
+    elif 'отмена' in text.lower():
         is_order = False
         order.delete()
         step =0
         send_message(phone_number,'Ваш заказ отменён')
-    elif 'ок' in text:
+    elif 'ок' in text.lower():
         step = 0
         is_order = False
         message = f"""Пришёл заказ: {', '.join(' '.join((i.dish.name,'Количество:',str(i.count))) for i in order.one_order.all())}\nСумма заказа:{order.sum_of_order}\nНомер телефона:{phone_number}"""
@@ -115,6 +115,7 @@ def get_menu(phone_number, text):
             message = f"""{i.id}\n{i.name}\n{i.description}\n{i.price}"""
             if i.image:
                 media = f"http://80.90.184.58:8000{i.image.url}"
+                send_message(phone_number,message,media)
             else:
                 send_message(phone_number,message,'no')
             step =2
