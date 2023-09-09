@@ -113,8 +113,10 @@ def get_menu(phone_number, text):
     if text == "1":
         for i in Menu.objects.all():
             message = f"""{i.id}\n{i.name}\n{i.description}\n{i.price}"""
-            media = f"http://80.90.184.58:8000{i.image.url}"
-            send_message(phone_number,message, media)
+            if i.image:
+                media = f"http://80.90.184.58:8000{i.image.url}"
+            else:
+                send_message(phone_number,message,'no')
             step =2
     else:
         send_message(phone_number,command2)
