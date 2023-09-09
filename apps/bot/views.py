@@ -35,6 +35,8 @@ def incoming(request):
             step=0
     else:
         hello_text(phone_number)
+        step=0
+
     return HttpResponse({'200':'OK'})
     
 def hello_text(phone_number):
