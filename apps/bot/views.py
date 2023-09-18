@@ -114,7 +114,7 @@ def get_menu(phone_number, text):
         all_menu = ''
         for cat in Category.objects.all():
             cat_text = f"⭐️⭐️ {cat.name} ⭐️⭐️"
-            for i in cat.objects.all().filter(draft = False):
+            for i in cat.products.all().filter(draft = False):
                 message = f"""\n{i.id}. {i.name} - {i.price}сом\n"""
                 cat_text += message
             all_menu+=cat_text

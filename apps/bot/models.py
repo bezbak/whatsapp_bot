@@ -23,10 +23,11 @@ class Menu(models.Model):
     )
     category = models.ForeignKey(
         Category,
-        verbose_name='products',
+        related_name='products',
         on_delete=models.SET_NULL,
         blank=True, 
-        null=True
+        null=True,
+        verbose_name='Категория'
     )
     price = models.IntegerField()
     draft = models.BooleanField(default=False)
