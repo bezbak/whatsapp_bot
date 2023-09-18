@@ -112,7 +112,7 @@ def get_menu(phone_number, text):
     global step
     if text == "1":
         all_menu = ''
-        for i in Menu.objects.all().filter(draft = True):
+        for i in Menu.objects.all().filter(draft = False):
             message = f"""{i.id}\n{i.name}\n{i.description}\n{i.price}\n"""
             all_menu += message
         send_message(phone_number, all_menu)
