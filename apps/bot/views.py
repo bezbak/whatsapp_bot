@@ -74,7 +74,7 @@ def set_order(phone_number, text):
     dish = MenuToOrder.objects.create(dish=item, order=order,count = int(text))
     dish.save()
     order.sum_of_order += dish.dish.price * int(text)
-    message = f"""✅✅✅ВАШ ЗАКАЗ✅✅✅\n\n{', '.join(' '.join((i.dish.name,'Количество:',str(i.count))) for i in order.one_order.all())}\n\nСумма:{order.sum_of_order}\n\n     🔥🔥🔥ДОБАВИТЬ ЕЩЁ, НАПИШИТЕ НОМЕР БЛЮДА🔥🔥🔥  \n\n🤝🤝🤝ОФОРМИТЬ ЗАКАЗ🤝🤝🤝 отправьте «ОК»\n\nНапишите 'нет' чтобы отменить выбор или 'Отмена' чтобы отменить заказ"""
+    message = f"""✅✅✅ВАШ ЗАКАЗ✅✅✅\n\n{', '.join(' '.join((i.dish.name,'Количество:',str(i.count))) for i in order.one_order.all())}\n\nСумма:{order.sum_of_order}\n\n     🔥🔥🔥ДОБАВИТЬ ЕЩЁ, НАПИШИТЕ НОМЕР БЛЮДА🔥🔥🔥  \n\n🤝🤝🤝ОФОРМИТЬ ЗАКАЗ🤝🤝🤝 отправьте «ОК»\n\nНапишите 'нет' чтобы отменить выбор\n\n'Отмена' чтобы отменить заказ"""
     is_order = True
     send_message(phone_number,message)
     step=4
@@ -111,14 +111,12 @@ def del_order(phone_number, text):
 def get_menu(phone_number, text):
     global step
     if text == "1":
-        for i in Menu.objects.all():
-            message = f"""{i.id}\n{i.name}\n{i.description}\n{i.price}"""
-            if i.image:
-                media = f"http://80.90.184.58:8000{i.image.url}"
-                send_message(phone_number,message,media)
-            else:
-                send_message(phone_number,message,'no')
-            step =2
+        all_menu = ''
+        for i in Menu.objects.all().filter(draft = True):
+            message = f"""{i.id}\n{i.name}\n{i.description}\n{i.price}\n"""
+            all_menu += message
+        send_message(phone_number, all_menu)
+        step =2
     else:
         send_message(phone_number,command2)
         step =5

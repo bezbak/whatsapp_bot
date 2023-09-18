@@ -16,7 +16,7 @@ class Menu(models.Model):
         null=True
     )
     price = models.IntegerField()
-
+    draft = models.BooleanField(default=False)
     class Meta:
         verbose_name = "Продукт"
         verbose_name_plural = "Меню"
