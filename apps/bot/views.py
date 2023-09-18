@@ -113,10 +113,10 @@ def get_menu(phone_number, text):
     if text == "1":
         all_menu = ''
         for cat in Category.objects.all():
-            cat_text = f"⭐️⭐️ {cat.name} ⭐️⭐️\n\n"
+            cat_text = f"   ⭐️⭐️ {cat.name} ⭐️⭐️\n"
             for i,val in enumerate(cat.products.all().filter(draft = False)):
                 if val == cat.products.all().latest('id'):
-                    message = f"""\n{val.new_id}. {val.name} - {val.price}сом\n\n"""
+                    message = f"""\n{val.new_id}. {val.name} - {val.price}сом\n\n\n"""
                 else:
                     message = f"""\n{val.new_id}. {val.name} - {val.price}сом"""
                 cat_text += message
