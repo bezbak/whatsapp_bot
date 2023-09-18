@@ -115,7 +115,7 @@ def get_menu(phone_number, text):
         for cat in Category.objects.all():
             cat_text = f"⭐️⭐️ {cat.name} ⭐️⭐️\n\n"
             for i,val in enumerate(cat.products.all().filter(draft = False)):
-                if i == cat.products.all().latest('id').id:
+                if val == cat.products.all().latest('id'):
                     message = f"""\n{val.new_id}. {val.name} - {val.price}сом\n\n"""
                 else:
                     message = f"""\n{val.new_id}. {val.name} - {val.price}сом"""
