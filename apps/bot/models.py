@@ -14,7 +14,7 @@ class Category(models.Model):
 
 class Menu(models.Model):
     new_id = models.IntegerField(
-        unique=True,
+        # unique=True,
         default=0,
         null=True,
         blank=True
