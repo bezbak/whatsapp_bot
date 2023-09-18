@@ -2,6 +2,16 @@ from typing import Iterable, Optional
 from django.db import models
 
 # Create your models here.
+class Category(models.Model):
+    name = models.CharField(max_length=55)
+
+    def __str__(self) -> str:
+        return f"{self.name}"
+    
+    class Meta:
+        verbose_name = 'Категория'
+        verbose_name_plural = 'Категории'
+
 class Menu(models.Model):
     image = models.ImageField(
         upload_to='menu/',
@@ -11,8 +21,11 @@ class Menu(models.Model):
     name = models.CharField(
         max_length=50
     )
-    description = models.TextField(
-        blank=True,
+    category = models.ForeignKey(
+        Category,
+        verbose_name='products',
+        on_delete=models.SET_NULL,
+        blank=True, 
         null=True
     )
     price = models.IntegerField()

@@ -1,5 +1,5 @@
 from rest_framework.decorators import api_view
-from apps.bot.models import Order, Menu,MenuToOrder
+from apps.bot.models import Order, Menu,MenuToOrder, Category
 from twilio.rest import Client
 from core.config import account_sid1, auth_token1
 from django.http import HttpResponse
@@ -112,9 +112,12 @@ def get_menu(phone_number, text):
     global step
     if text == "1":
         all_menu = ''
-        for i in Menu.objects.all().filter(draft = False):
-            message = f"""{i.id}. {i.name} - {i.price}сом\n"""
-            all_menu += message
+        for cat in Category.objects.all():
+            cat_text = f"⭐️⭐️ {cat.name} ⭐️⭐️"
+            for i in cat.objects.all().filter(draft = False):
+                message = f"""\n{i.id}. {i.name} - {i.price}сом\n"""
+                cat_text += message
+            all_menu+=cat_text
         send_message(phone_number, all_menu)
         step =2
     else:
