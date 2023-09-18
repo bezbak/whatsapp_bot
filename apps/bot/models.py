@@ -13,6 +13,12 @@ class Category(models.Model):
         verbose_name_plural = 'Категории'
 
 class Menu(models.Model):
+    new_id = models.IntegerField(
+        unique=True,
+        default=0,
+        null=True,
+        blank=True
+    )
     image = models.ImageField(
         upload_to='menu/',
         blank=True,

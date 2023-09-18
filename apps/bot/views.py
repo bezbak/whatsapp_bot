@@ -50,14 +50,14 @@ def create_order(phone_number, order):
     global is_order
     if is_order:
         try:
-            item = Menu.objects.get(id = int(order))
+            item = Menu.objects.get(new_id = int(order))
             step +=1
             send_message(phone_number,'Выберите количество порций')
         except:
             send_message(phone_number,'Такого номера нет. Напишите другой номер')
     else:
         try:
-            item = Menu.objects.get(id = int(order))
+            item = Menu.objects.get(new_id = int(order))
             order2 = Order.objects.create(phone_number=phone_number, sum_of_order = 0)
             dish1=order2
             step +=1
@@ -115,7 +115,7 @@ def get_menu(phone_number, text):
         for cat in Category.objects.all():
             cat_text = f"⭐️⭐️ {cat.name} ⭐️⭐️\n\n"
             for i in cat.products.all().filter(draft = False):
-                message = f"""\n{i.id}. {i.name} - {i.price}сом"""
+                message = f"""\n{i.new_id}. {i.name} - {i.price}сом"""
                 cat_text += message
             all_menu+=cat_text
         send_message(phone_number, all_menu)
