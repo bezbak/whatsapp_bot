@@ -74,7 +74,7 @@ def set_order(phone_number, text):
     dish = MenuToOrder.objects.create(dish=item, order=order,count = int(text))
     dish.save()
     order.sum_of_order += dish.dish.price * int(text)
-    message = f"""✅✅✅ВАШ ЗАКАЗ✅✅✅\n\n{', '.join(' '.join((i.dish.name,'Количество:',str(i.count))) for i in order.one_order.all())}\n\nСумма:{order.sum_of_order}\n\n     🔥🔥🔥ДОБАВИТЬ ЕЩЁ, НАПИШИТЕ НОМЕР БЛЮДА🔥🔥🔥  \n\n🤝🤝🤝ОФОРМИТЬ ЗАКАЗ🤝🤝🤝 отправьте «ОК»\n\nНапишите 'нет' чтобы отменить выбор\n\n'Отмена' чтобы отменить заказ"""
+    message = f"""✅✅✅ВАШ ЗАКАЗ✅✅✅\n\n{', '.join(' '.join((i.dish.name,'Количество:',str(i.count))) for i in order.one_order.all())}\n\nСумма:{order.sum_of_order} сом\n\n     🔥🔥🔥ДОБАВИТЬ ЕЩЁ, НАПИШИТЕ НОМЕР БЛЮДА🔥🔥🔥  \n\n🤝🤝🤝ОФОРМИТЬ ЗАКАЗ🤝🤝🤝 отправьте «ОК»\n\nНапишите 'нет' чтобы отменить выбор\n\n'Отмена' чтобы отменить заказ"""
     is_order = True
     send_message(phone_number,message)
     step=4
@@ -102,7 +102,7 @@ def del_order(phone_number, text):
     elif 'ок' in text.lower():
         step = 0
         is_order = False
-        message = f"""Пришёл заказ: {', '.join(' '.join((i.dish.name,'Количество:',str(i.count))) for i in order.one_order.all())}\nСумма заказа:{order.sum_of_order}\nНомер телефона:{phone_number}"""
+        message = f"""Пришёл заказ: {', '.join(' '.join((i.dish.name,'Количество:',str(i.count))) for i in order.one_order.all())}\nСумма заказа:{order.sum_of_order} сом\nНомер телефона:{phone_number}"""
         send_message('whatsapp:+996557500113', message=message)
         send_message(phone_number, message='Мы приняли ваш заказ, ожидайте ответа')
     else:
@@ -113,7 +113,7 @@ def get_menu(phone_number, text):
     if text == "1":
         all_menu = ''
         for i in Menu.objects.all().filter(draft = False):
-            message = f"""{i.id}\n{i.name}\n{i.description}\n{i.price}\n"""
+            message = f"""{i.id}\n{i.name}\n{i.description}\n{i.price} сом\n"""
             all_menu += message
         send_message(phone_number, all_menu)
         step =2
