@@ -70,6 +70,7 @@ def set_order(phone_number, text):
     global item
     global is_order
     global dish1
+    step=4
     order = dish1
     dish = MenuToOrder.objects.create(dish=item, order=order,count = int(text))
     dish.save()
@@ -77,7 +78,6 @@ def set_order(phone_number, text):
     message = f"""✅✅✅ВАШ ЗАКАЗ✅✅✅\n\n{', '.join(' '.join((i.dish.name,'Количество:',str(i.count))) for i in order.one_order.all())}\n\nСумма:{order.sum_of_order} сом\n\n     🔥🔥🔥ДОБАВИТЬ ЕЩЁ, НАПИШИТЕ НОМЕР БЛЮДА🔥🔥🔥  \n\n🤝🤝🤝ОФОРМИТЬ ЗАКАЗ🤝🤝🤝 отправьте «ОК»\n\nНапишите 'нет' чтобы отменить выбор\n\n'Отмена' чтобы отменить заказ"""
     is_order = True
     send_message(phone_number,message)
-    step=4
 
 def del_order(phone_number, text):
     global step
@@ -90,21 +90,21 @@ def del_order(phone_number, text):
             order.sum_of_order -= order.one_order.latest('id').dish.price * order.one_order.latest('id').count
             order.one_order.latest('id').delete()
             print('order is delete')
-            send_message(phone_number,'Хорошо выберите другое блюдо')
             step -=2
+            send_message(phone_number,'Хорошо выберите другое блюдо')
         except:
             send_message(phone_number,'Хорошо выберите другое блюдо')
     elif 'отмена' in text.lower():
         is_order = False
+        step =0
         order.delete()
         send_message(phone_number,'Ваш заказ отменён')
-        step =0
     elif 'ок' in text.lower():
         is_order = False
+        step = 0
         message = f"""Пришёл заказ: {', '.join(' '.join((i.dish.name,'Количество:',str(i.count))) for i in order.one_order.all())}\nСумма заказа:{order.sum_of_order} сом\nНомер телефона:{phone_number}"""
         send_message('whatsapp:+996557500113', message=message)
         send_message(phone_number, message='Мы приняли ваш заказ, ожидайте ответа')
-        step = 0
     else:
         step =2
         create_order(phone_number, text)
@@ -121,11 +121,11 @@ def get_menu(phone_number, text):
                     message = f"""\n{val.new_id}. {val.name} - {val.price}сом"""
                 cat_text += message
             all_menu+=cat_text
-        send_message(phone_number, all_menu)
         step =2
+        send_message(phone_number, all_menu)
     else:
-        send_message(phone_number,command2)
         step =5
+        send_message(phone_number,command2)
 def send_message(receiver_number, message, image='no'):
     if image == 'no':
         message = client.messages.create(
