@@ -17,6 +17,9 @@ class Menu(models.Model):
     )
     price = models.IntegerField()
     draft = models.BooleanField(default=False)
+
+    def __str__(self) -> str:
+        return f"{self.name}"
     class Meta:
         verbose_name = "Продукт"
         verbose_name_plural = "Меню"
