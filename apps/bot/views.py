@@ -52,7 +52,7 @@ def create_order(phone_number, order):
         if is_order:
             try:
                 item = Menu.objects.get(new_id = int(order))
-                step +=1
+                step =3
                 send_message(phone_number,'Выберите количество порций')
             except:
                 send_message(phone_number,'Такого номера нет. Напишите другой номер')
@@ -61,7 +61,7 @@ def create_order(phone_number, order):
                 item = Menu.objects.get(new_id = int(order))
                 order2 = Order.objects.create(phone_number=phone_number, sum_of_order = 0)
                 dish1=order2
-                step +=1
+                step =3
                 send_message(phone_number,'Выберите количество порций')
             except:
                 send_message(phone_number,'Такого номера нет. Напишите другой номер')
