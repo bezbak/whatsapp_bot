@@ -90,21 +90,21 @@ def del_order(phone_number, text):
             order.sum_of_order -= order.one_order.latest('id').dish.price * order.one_order.latest('id').count
             order.one_order.latest('id').delete()
             print('order is delete')
-            step -=2
             send_message(phone_number,'Хорошо выберите другое блюдо')
+            step -=2
         except:
             send_message(phone_number,'Хорошо выберите другое блюдо')
     elif 'отмена' in text.lower():
         is_order = False
         order.delete()
-        step =0
         send_message(phone_number,'Ваш заказ отменён')
+        step =0
     elif 'ок' in text.lower():
-        step = 0
         is_order = False
         message = f"""Пришёл заказ: {', '.join(' '.join((i.dish.name,'Количество:',str(i.count))) for i in order.one_order.all())}\nСумма заказа:{order.sum_of_order} сом\nНомер телефона:{phone_number}"""
         send_message('whatsapp:+996557500113', message=message)
         send_message(phone_number, message='Мы приняли ваш заказ, ожидайте ответа')
+        step = 0
     else:
         step =2
         create_order(phone_number, text)
@@ -114,8 +114,11 @@ def get_menu(phone_number, text):
         all_menu = ''
         for cat in Category.objects.all():
             cat_text = f"⭐️⭐️ {cat.name} ⭐️⭐️\n\n"
-            for i in cat.products.all().filter(draft = False):
-                message = f"""\n{i.new_id}. {i.name} - {i.price}сом"""
+            for i,val in enumerate(cat.products.all().filter(draft = False)):
+                if i == cat.products.all().latest('id').id:
+                    message = f"""\n{val.new_id}. {val.name} - {val.price}сом\n\n"""
+                else:
+                    message = f"""\n{val.new_id}. {val.name} - {val.price}сом"""
                 cat_text += message
             all_menu+=cat_text
         send_message(phone_number, all_menu)
