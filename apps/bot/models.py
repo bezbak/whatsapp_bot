@@ -39,7 +39,7 @@ class Menu(models.Model):
     draft = models.BooleanField(default=False)
 
     def __str__(self) -> str:
-        return f"{self.name}"
+        return f"{self.new_id}-{self.name}-{self.price}"
     class Meta:
         verbose_name = "Продукт"
         verbose_name_plural = "Меню"
